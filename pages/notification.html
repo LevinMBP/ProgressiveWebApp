@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Push Notification</title>
+    <link rel="manifest" href="../manifest.json" />
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon-16x16.png">
+</head>
+
+<body>
+    <header class="header">
+        <a href="/index.html">
+            <img class="logo" src="../assets/images/playlistlogo.png" />
+        </a>
+        <h1>Notification</h1>
+    </header>
+    <main>
+        <div class="form-wrapper">
+            <div class="form-content form-content-button" id="notifBtnWrapper">
+                <button id="notificationBtn" class="form-btn send-notif-btn">Send Notification</button>
+            </div>
+            <div class="form-body" id="formWrapper">
+                <div class="error-message" id="notifErrMsg">
+                    <h6>Title is required</h6>
+                </div>
+                <div class="success-message" id="notifSuccMsg">
+                    <h6 id="notifresponse"></h6>
+                </div>
+                <form id="notificationForm">
+                    <div class="form-content">
+                        <label class="form-label label-err" for="notifTitle">Title:</label>
+                        <input type="text" class="form-input" name="notifTitle" id="notifTitle" />
+                    </div>
+                    <div class="form-content">
+                        <label class="form-label label-err" for="notifBody">Body:</label>
+                        <input type="text" class="form-input" name="notifBody" id="notifBody" />
+                    </div>
+                    <div class="form-content form-content-button submit-button">
+                        <button type="submit" class="form-btn" id="showNotifBtn">Show</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="/js/notifications.js" type="module"></script>
+</body>
+
+</html>

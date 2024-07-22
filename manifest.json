@@ -1,0 +1,39 @@
+{
+    "name": "My Music Playlist",
+    "short_name": "My Playlist",
+    "description": "An app tkeep a list of my favourite musics.",
+    "start_url": "/",
+    "id": "/",
+    "display": "standalone",
+    "theme_color": "#eee",
+    "background_color": "#fff",
+    "orientation": "any",
+    "screenshots": [
+        {
+            "src": "/assets/images/playlistlogo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "App Logo"
+        },
+        {
+            "src": "/assets/images/playlistlogo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "App Logo"
+        }
+    ],
+    "icons": [
+        {
+            "src": "/assets/images/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/images/playlistlogo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

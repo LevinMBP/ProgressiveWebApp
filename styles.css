@@ -1,0 +1,213 @@
+body {
+    min-width: 320px;
+    font-family: 'Poppins';
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    margin-top: 20px;
+}
+
+main {
+    margin-bottom: 40px;
+}
+
+.section-header h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    font-size: 1.5em;
+}
+
+.bellIcon-link {
+    font-size: 24px;
+    margin-left: 30px;
+    color: #176099;
+}
+
+.logo {
+    margin: auto 5px;
+    height: 50px;
+    width: 50px;
+}
+
+.section-header {
+    background-color: #04d0c4;
+    padding: 3px 0;
+}
+
+.section-header h3 {
+    font-size: 1.35em;
+}
+
+#songForm {
+    padding: 10px;
+}
+
+.form-content {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-content-button {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.form-label {
+    color: rgb(33, 37, 41);
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 2px;
+}
+
+.form-input {
+    line-height: 24px;
+    border-color: rgba(118, 118, 118, .7);
+    border-radius: 3px;
+    padding: 5px;
+    font-size: 16px;
+}
+
+.form-button {
+    background-color: #0476D0;
+    color: #fff;
+    padding: 10px;
+    border-radius: 3px;
+    border-color: #0476D0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.song-card {
+    border: 2px solid #808080;
+    border-radius: 5px;
+    margin: 20px 10px;
+    padding: 10px;
+}
+
+.song-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.song-likes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.song-card h5 {
+    margin: 0;
+}
+
+.song-card .song-title h5 {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.likes-label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-right: 5px !important;
+}
+
+.likes-count {
+    font-weight: bold;
+    font-size: 24px;
+}
+
+.song-card .song-artist h5 {
+    font-size: 14px;
+    color: #6c6060;
+    font-weight: 500;
+}
+
+.song-title,
+.song-artist {
+    padding: 2px 0;
+}
+
+.btn-actions-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.btn-remove button,
+.btn-like button {
+    padding: 5px 20px;
+    border-radius: .25rem;
+    border-width: 1.5px;
+    color: white;
+}
+
+.btn-remove button {
+    background-color: #c00000;
+}
+
+.btn-like button {
+    background-color: #4370c1;
+}
+
+.error-message,
+.success-message {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.error-message h6,
+.success-message h6 {
+    margin: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1.5px;
+}
+
+.error-message {
+    background-color: #D00410;
+}
+
+.success-message {
+    background-color: #52c41a;
+}
+
+.show {
+    display: flex;
+}
+
+@media only screen and (min-width: 600px) {
+    .form-content {
+        max-width: 600px;
+        margin: 5px auto;
+    }
+
+    .form-content-button {
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
+
+    .list-song-wrapper {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+}

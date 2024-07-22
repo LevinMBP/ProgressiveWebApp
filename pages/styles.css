@@ -1,0 +1,26 @@
+body {
+    background-color: #d9d9d9;
+}
+
+.logo {
+    margin-right: 20px;
+}
+
+
+#notificationForm {
+    padding: 10px;
+}
+
+.form-btn {
+    background-color: #4572c4;
+    border-color: #4572c4;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 5px 15px;
+}
+
+.submit-button {
+    flex-direction: row-reverse;
+}

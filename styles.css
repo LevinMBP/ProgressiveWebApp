@@ -17,10 +17,15 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 12px 0;
+    margin: 12px 15px;
+    font-size: 1.35em;
+    color: #252525;
+    border-bottom: 2px solid rgba(184, 184, 184, .5);
 }
 
-header {
+/* header {} */
+
+.identity {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -28,9 +33,32 @@ header {
     margin-bottom: 10px;
 }
 
-header h1 {
+.identity h1 {
     font-size: 1.5em;
 }
+
+#main-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+    background-color: #04d0c4;
+    padding: 10px 0;
+}
+
+#main-menu a {
+    color: black;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+/* header h1 {
+    font-size: 1.5em;
+} */
 
 .bellIcon-link {
     font-size: 24px;
@@ -44,14 +72,10 @@ header h1 {
     width: 50px;
 }
 
-.section-header {
+/* .section-header {
     background-color: #04d0c4;
     padding: 3px 0;
-}
-
-.section-header h3 {
-    font-size: 1.35em;
-}
+} */
 
 #songForm {
     padding: 10px;

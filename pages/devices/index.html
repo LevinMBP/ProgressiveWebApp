@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Music Playlist</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png">
+    <script src="https://kit.fontawesome.com/66041f2ae7.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="identity">
+            <img class="logo" src="/assets/images/playlistlogo.png" />
+            <h1>My Music Playlist</h1>
+            <a class="bellIcon-link" href="pages/notification.html"><i class="fa-solid fa-bell"></i></a>
+        </div>
+        <nav id="main-menu">
+            <a href="/">Home</a>
+            <a href="/pages/devices/index.html">Devices</a>
+        </nav>
+    </header>
+    <main>
+        <div class="section-header">
+            <h3>Device Features Demo</h3>
+
+            <div class="main-content">
+
+                <select id="feature-selector">
+                    <option value=""> - Select a Feature - </option>
+                    <optgroup label="Device APIs">
+                        <option value="battery">Battery Status Api</option>
+                        <option value="network-info">Network Information</option>
+                        <option value="fullscreen">Fullscreen API</option>
+                        <option value="screen-orientation">Screen Orientation API</option>
+                        <option value="vibration">Vibration</option>
+                        <option value="page-visibility">Page Visibility</option>
+                        <option value="idle-detection">Idle Detection API</option>
+                        <option value="screen-wake-lock">Screen Wake Lock API</option>
+                        <option value="geolocation">Geolocation</option>
+                    </optgroup>
+                    <optgroup label="Permissions API">
+                        <option value="permissions">Permissions</option>
+                    </optgroup>
+                    <optgroup label="Sensor APIs">
+                        <option value="accelerometer">Accelerometer</option>
+                        <option value="linear-acceleration">Linear Acceleration Sensor</option>
+                        <option value="gyroscope">Gyroscope</option>
+                        <option value="gravity">Gravity Sensor</option>
+                    </optgroup>
+                </select>
+
+                <div id="device-output">
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="scripts.js" type="module"></script>
+
+</body>
+
+</html>

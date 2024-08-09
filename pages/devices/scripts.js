@@ -256,7 +256,30 @@ function handleVibration() {
 }
 
 function handlePageVisibility() {
-    output.innerText = "Network Information...";
+    console.log("Visibility: ", document.visibilityState);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') {
+            Notification.requestPermission((permission) => {
+                if (permission === 'granted') {
+                    console.log("Permission: ", permission)
+                    navigator.serviceWorker.ready
+                        .then((registration) => {
+                            console.log("it is ready")
+                            registration.showNotification("You are idle with our app", {
+                                body: "We'll be waiting here",
+                                icon: "/assets/images/playlistlogo.png"
+                            })
+                        })
+                        .catch((err) => {
+                            console.log("SW Error: ", err)
+                        })
+                }
+            })
+        }
+        else {
+            output.innerHTML = "Welcome Back";
+        }
+    })
 }
 
 function handleIdleDetection() {

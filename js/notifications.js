@@ -1,5 +1,3 @@
-import playlistDbCloud from "../api/playlist-db-cloud.js";
-
 const notificationBtn = document.getElementById('notificationBtn');
 const showNotifBtn = document.getElementById('showNotifBtn');
 
@@ -15,22 +13,18 @@ const notifresponse = document.getElementById('notifresponse');
 
 if ("Notification" in window && "serviceWorker" in navigator) {
 
-    // The ready property delays the code execution of the app until the service worker is active.
-    // It returns a Promise that NEVER rejects and which waits indefinitely until service worker is active
     navigator.serviceWorker.ready
         .then((registration) => {
-            console.log("[NS] Active")
 
             const controller = registration.active
-            if (controller) {
-                // Receives message from service worker
-                navigator.serviceWorker.addEventListener('message', (message) => {
-                    console.log(message.data)
-                    // alert(message.data)
-                })
-            }
+            console.log("[SW] Controller is active", controller);
+            // controller.postMessage("[PS] Registration is active")
 
-
+            // Receives message from service worker
+            navigator.serviceWorker.addEventListener('message', (message) => {
+                console.log(message.data)
+                alert(message.data)
+            })
         })
 
 
@@ -50,9 +44,9 @@ if ("Notification" in window && "serviceWorker" in navigator) {
 
     // Only if Notification && serviceWorker are true add addeventlistener 
     notificationBtn.addEventListener('click', (event) => {
-
+        // console.log("Subscribed!!")
         event.preventDefault();
-        // console.log("Permission: ", Notification.permission);
+        console.log("Permission: ", Notification.permission);
 
         switch (Notification.permission) {
             case 'default':
@@ -69,32 +63,23 @@ if ("Notification" in window && "serviceWorker" in navigator) {
 }
 else {
     notificationNotAllowed();
-    hideDOM(formWrap);
 }
 
 
 // Request the users permission to send notifications
 function requestUserPermission() {
-    // console.log("Requesting Permission...");
-
+    console.log("Requesting Permission...");
     Notification.requestPermission()
         .then((permission) => {
-
-            // console.log("User Choice: ", permission);
+            console.log("User Choice: ", permission);
             if (permission === 'granted') {
-
                 hideDOM(notificationBtnWrap);
                 showDOM(formWrap);
-
-                // Subscribe the device to receive push messages
-                configurePushSubscription();
             }
         })
 }
 
 function notificationNotAllowed() {
-    // If user choose to block permission
-    // disables button
     notificationBtn.disabled = true;
     notificationBtn.style.backgroundColor = "#cccccc";
     notificationBtn.style.borderColor = "#999999";
@@ -120,19 +105,19 @@ function displayNotification() {
 
     const options = {
         body: notifBody.value || "Thank you for subscribing to our notifications",
-        icon: "../assets/images/playlistlogo.png",
-        image: "../assets/images/thank-you.jpg",
+        icon: "/assets/images/playlistlogo.png",
+        image: "/assets/images/thank-you.jpg",
         // actions can only be applied if notifications are being rendered by serviceworker
         actions: [
             {
                 action: 'confirm',
                 title: 'Okay',
-                icon: '../assets/images/ok.png'
+                icon: '/assets/images/ok.png'
             },
             {
                 action: 'cancel',
                 title: 'Cancel',
-                icon: '../assets/images/cancel.png'
+                icon: '/assets/images/cancel.png'
             }
         ],
         data: {
@@ -153,39 +138,11 @@ function displayNotification() {
 }
 
 // Subscribe the device to receive push messages
-async function configurePushSubscription() {
-    try {
-
-        // PushManager interface provides a way to receive notifications from third-party servers
-        const registration = await navigator.serviceWorker.ready;
-        const pushManager = registration.pushManager;
-
-        // Returns an object containing details of existing subscription
-        // Retiurns null if user is not subscribed
-        let getSubscription = await pushManager.getSubscription();
-        if (getSubscription === null) {
-            // https://vapidkeys.com/
-            const publicKey = "BF03c7t3TQ8vZCVV0ixTNs_bXyBTahpvVNTxzt4ex_F5AcGfLFfXLEBJPhQ-pKZ2pGez72pigH0dyPrj2Jocgr4";
-            const options = {
-                userVisibleOnly: true,
-                applicationServerKey: publicKey,
-            }
-            // Createsa new push subscription
-            getSubscription = await pushManager.subscribe(options);
-
-            // If new subscription is created.
-            // Needs to save to database
-            await playlistDbCloud.open();
-            await playlistDbCloud.subscribe(getSubscription);
-            console.log("Subscription Saved!");
-        }
-        // Goes here if Client is already subscribed.
-        // Does not need to save to db if Client already subscribed.
-        console.log("Subscription: ", getSubscription);
-    }
-    catch (err) {
-        console.log(err)
-    }
+function configurePushSubscription() {
+    navigator.serviceWorker.ready
+        .then((registration) => {
+            const pushManager = registration.pushManager;
+        })
 }
 
 showNotifBtn.addEventListener('click', (event) => {

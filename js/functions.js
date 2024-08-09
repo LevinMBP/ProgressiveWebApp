@@ -2,60 +2,46 @@ import playlistDb from "../api/playlist-db-cloud.js";
 
 
 if ('serviceWorker' in navigator) {
-    // https://stackoverflow.com/questions/28789395/difference-between-serviceworker-getregistration-and-serviceworker-ready-then
-
-    // navigator.serviceWorker.register('service-worker.js', { scope: '/' })
-    //     .then((res) => {
-    //         console.log("Registration Success: ", res);
-    //     })
-    //     .catch((err) => {
-    //         console.log("Registration Failed: ", err);
-    //     })
+    navigator.serviceWorker.register('service-worker.js', { scope: '/' })
+        .then((res) => {
+            // console.log("Registration Success: ", res);
+        })
+        .catch((err) => {
+            console.log("Registration Failed: ", err);
+        })
 
     // The ready property delays the code execution of the app until the service worker is active.
     // It returns a Promise that NEVER rejects and which waits indefinitely until service worker is active
-    navigator.serviceWorker.ready
-        .then((registration) => {
+    // navigator.serviceWorker.ready
+    //     .then((registration) => {
 
-            const controller = registration.active;
-            if (controller) {
-                console.log("[FS][SW] Active");
+    //         const controller = registration.active;
+    //         console.log("Controller is active", controller);
+    //         // controller.postMessage("[PS] Registration is active")
 
-                // Receives message from service worker
-                navigator.serviceWorker.addEventListener('message', (message) => {
-                    console.log(message.data)
-                    alert(message.data)
-                })
+    //         // Validate if Background Sync is available
+    //         if ('sync' in registration) {
 
-                // Sends message to service worker
-                controller.postMessage("Function Script message to [SW]");
-                // controller.postMessage({ 'FS': "My message to [SW]" });
-            }
+    //             // Check if tag name is already registered
+    //             registration.sync.getTags()
+    //                 .then((tags) => {
+    //                     if (!tags.includes('my-tag-name')) {
+    //                         // Register a tagname
+    //                         registration.sync.register('my-tag-name')
+    //                             .then(() => {
+    //                                 console.log("tag registered");
+    //                             })
+    //                             .catch((err) => {
+    //                                 console.log("unsuccessful registration");
+    //                             })
+    //                     }
+    //                 })
 
-
-            // // Validate if Background Sync is available
-            // if ('sync' in registration) {
-
-            //     // Check if tag name is already registered
-            //     registration.sync.getTags()
-            //         .then((tags) => {
-            //             if (!tags.includes('my-tag-name')) {
-            //                 // Register a tagname
-            //                 registration.sync.register('my-tag-name')
-            //                     .then(() => {
-            //                         console.log("tag registered");
-            //                     })
-            //                     .catch((err) => {
-            //                         console.log("unsuccessful registration");
-            //                     })
-            //             }
-            //         })
-
-            // }
-            // else {
-            //     console.log("Not available background sync");
-            // }
-        })
+    //         }
+    //         else {
+    //             console.log("Not available background sync");
+    //         }
+    //     })
 
     // navigator.serviceWorker.addEventListener('message', (event) => {
     //     console.log("[PS] Message Received: ", event)

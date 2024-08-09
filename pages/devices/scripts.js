@@ -35,22 +35,22 @@ document.getElementById('feature-selector').addEventListener('change', function 
             handleScreenWakeLock();
             break;
         case 'geolocation':
-            handleDeviceFeatureSelector(selectedText);
+            handleGeolocation();
             break;
         case 'permissions':
-            handleDeviceFeatureSelector(selectedText);
+            handlePermissionsAPI();
             break;
         case 'accelerometer':
-            handleDeviceFeatureSelector(selectedText);
+            handleAccelerometer();
             break;
         case 'linear-acceleration':
-            handleDeviceFeatureSelector(selectedText);
+            handleLinearAcceleration();
             break;
         case 'gyroscope':
-            handleDeviceFeatureSelector(selectedText);
+            handleGyroscope();
             break;
         case 'gravity':
-            handleDeviceFeatureSelector(selectedText);
+            handleGravity();
             break;
 
 
@@ -282,10 +282,122 @@ function handlePageVisibility() {
     })
 }
 
-function handleIdleDetection() {
-    output.innerText = "Network Information...";
+async function handleIdleDetection() {
+
+    if ('IdleDetector' in window) {
+        const permission = await IdleDetector.requestPermission();
+        if (permission === 'granted') {
+            // Creates a new IdleDetector Object
+            const idleDetector = new IdleDetector();
+
+            // Helper function
+            const writeState = () => {
+                output.innerHTML = `
+                    <div>User State: <b>${idleDetector.userState}</b>.</div>
+                    <div>Screen State: <b>${idleDetector.screenState}</b>.</div>
+                `
+            }
+
+            await idleDetector.start({ threshold: 60000 });
+            writeState();
+
+            idleDetector.addEventListener('change', () => {
+                console.log("Detector Object: ", idleDetector);
+            })
+        }
+    }
+
+
 }
 
-function handleScreenWakeLock() {
-    output.innerText = "Network Information...";
+async function handleScreenWakeLock() {
+    if ('wakeLock' in navigator) {
+        // This will prevent the device from locking
+        const sentinel = await navigator.wakeLock.request('screen')
+        output.innerHTML = `
+            <div>Wake Lock is Active!</div>
+        `;
+
+        // Create a button to release the lock
+        const button = document.createElement('button');
+        button.innerText = "Release Screen";
+        output.append(button);
+
+        button.addEventListener('click', async () => {
+            await sentinel.release();
+            output.innerHTML = `
+                Wake Lock deactivated. <br />
+                The Screen was released!
+            `;
+        })
+    }
+    else {
+        output.innerText = "Screen wake lock API not supported on this device";
+    }
+}
+
+function handleGeolocation() {
+    if ('geolocation' in navigator) {
+        // Get current position
+        navigator.geolocation.getCurrentPosition(
+            // on success callback
+            (position) => {
+                console.log("CUrrent Position: ", position);
+                output.innerHTML = `
+                    <strong>Current Position:</strong>
+                    <div>Latitude: ${position.coords.latitude}</div>
+                    <div>Longtitude: ${position.coords.longitude}</div>
+                    <div>More or Less: ${position.coords.accuracy} meters</div>
+                `;
+            },
+
+            // on error callback
+            (err) => {
+                console.log("Current Position Error: ", err);
+                output.innerText = 'Geolocation failed to get the current position';
+            }
+        );
+
+        // Watch when position change
+        navigator.geolocation.watchPosition(
+            // On success callback
+            (position) => {
+                console.log("Watching Position: ", position);
+                output.innerHTML = `
+                    <strong>Watching Position:</strong>
+                    <div>Latitude: ${position.coords.latitude}</div>
+                    <div>Longtitude: ${position.coords.longitude}</div>
+                    <div>More or Less: ${position.coords.accuracy} meters</div>
+                `;
+            },
+            // Error callback
+            (err) => {
+                console.log("Watch Position Error: ", err);
+                output.innerText = 'Geolocation failed to get the watch position';
+            }
+        )
+    }
+    else {
+        output.innerText = "Geolocation API not available on this device";
+    }
+}
+
+function handlePermissionsAPI() {
+
+}
+
+function handleAccelerometer() {
+
+}
+
+function handleLinearAcceleration() {
+
+}
+
+function handleGyroscope() {
+
+}
+
+function handleGravity() {
+
 }

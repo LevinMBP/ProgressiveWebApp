@@ -445,6 +445,19 @@ async function handleAccelerometer() {
     // The reading event is fired when a new reading is available on a sensor
     accelerometer.addEventListener('reading', () => {
         console.log(accelerometer);
+
+        const axisX = accelerometer.x.toFixed(2);
+        const axisY = accelerometer.y.toFixed(2);
+        const axisZ = accelerometer.z.toFixed(2);
+
+        message.innerHTML = `
+            <div>Acceleration along the:</div>
+            <ul>
+                <li>X-axis is <b>${axisX}</b> m/s<sup>2</sup></li>
+                <li>Y-axis is <b>${axisY}</b> m/s<sup>2</sup></li>
+                <li>Z-axis is <b>${axisZ}</b> m/s<sup>2</sup></li>
+            </uil>
+        `;
     })
 
     // Create the helper elements
@@ -454,6 +467,7 @@ async function handleAccelerometer() {
 
     const buttonStop = document.createElement('button');
     buttonStop.innerText = 'Stop';
+    buttonStop.disabled = true;
     output.appendChild(buttonStop);
 
     const message = document.createElement('div');
@@ -462,13 +476,125 @@ async function handleAccelerometer() {
 
     // Start the sensor
     buttonStart.addEventListener('click', () => {
-        accelerometer.start()
+        try {
+            accelerometer.start();
+            buttonStop.disabled = false;
+            buttonStart.disabled = true;
+        }
+        catch (err) {
+            message.innerText = "itwas not possible to start the sensor: " + err;
+        }
+    })
+
+    // Stop the sensor
+    buttonStop.addEventListener('click', () => {
+        try {
+            accelerometer.stop();
+            buttonStop.disabled = true;
+            buttonStart.disabled = false;
+        }
+        catch (err) {
+            message.innerText = "itwas not possible to stop the sensor: " + err;
+        }
     })
 
 }
 
-function handleLinearAcceleration() {
+async function handleLinearAcceleration() {
+    // Validates sensor API
+    if (!('LinearAccelerationSensor' in window)) {
+        output.innerText = "LinearAccelerationSensor not available on this device";
+        return;
+    }
 
+    if (!('permissions' in navigator)) {
+        output.innerText = "Permission API not available on this device";
+        return;
+    }
+
+    // Validate the accelerometer permission
+    const linearAccelerometerPermission = await navigator.permissions.query({
+        name: 'accelerometer'
+    })
+
+    if (linearAccelerometerPermission.state !== 'granted') {
+        output.innerText = "You are not authorized to use linear acceleration sensor";
+        return;
+    }
+
+    // Declare the sensor variable
+    let linearAccelerometer
+    try {
+        linearAccelerometer = new LinearAccelerationSensor({
+            referenceFrame: 'device'
+        });
+    }
+    catch (err) {
+        output.innerText = 'linear acceleration error: ' + err;
+        return;
+    }
+
+    // Listening for errors thrown during its use
+    linearAccelerometer.addEventListener('error', (event) => {
+        const errMsg = event.error;
+        output.innerText = 'linearAccelerometer failed: ' + errMsg;
+    })
+
+    // The reading event is fired when a new reading is available on a sensor
+    linearAccelerometer.addEventListener('reading', () => {
+        console.log(linearAccelerometer);
+
+        const axisX = linearAccelerometer.x.toFixed(2);
+        const axisY = linearAccelerometer.y.toFixed(2);
+        const axisZ = linearAccelerometer.z.toFixed(2);
+
+        message.innerHTML = `
+            <div>Acceleration along the:</div>
+            <ul>
+                <li>X-axis is <b>${axisX}</b> m/s<sup>2</sup></li>
+                <li>Y-axis is <b>${axisY}</b> m/s<sup>2</sup></li>
+                <li>Z-axis is <b>${axisZ}</b> m/s<sup>2</sup></li>
+            </uil>
+        `;
+    })
+
+    // Create the helper elements
+    const buttonStart = document.createElement('button');
+    buttonStart.innerText = 'Start';
+    output.appendChild(buttonStart);
+
+    const buttonStop = document.createElement('button');
+    buttonStop.innerText = 'Stop';
+    buttonStop.disabled = true;
+    output.appendChild(buttonStop);
+
+    const message = document.createElement('div');
+    message.innerText = 'Click on the start button above';
+    output.appendChild(message);
+
+    // Start the sensor
+    buttonStart.addEventListener('click', () => {
+        try {
+            linearAccelerometer.start();
+            buttonStop.disabled = false;
+            buttonStart.disabled = true;
+        }
+        catch (err) {
+            message.innerText = "itwas not possible to start the sensor: " + err;
+        }
+    })
+
+    // Stop the sensor
+    buttonStop.addEventListener('click', () => {
+        try {
+            linearAccelerometer.stop();
+            buttonStop.disabled = true;
+            buttonStart.disabled = false;
+        }
+        catch (err) {
+            message.innerText = "itwas not possible to stop the sensor: " + err;
+        }
+    })
 }
 
 function handleGyroscope() {

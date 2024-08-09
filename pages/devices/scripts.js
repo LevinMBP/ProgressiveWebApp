@@ -13,20 +13,20 @@ document.getElementById('feature-selector').addEventListener('click', function (
             handleBatteryStatusAPI();
             break;
         case 'network-info':
-            handleDeviceFeatureSelector(selectedText);
+            handleNetworkInformation();
             break;
         case 'fullscreen':
-            handleDeviceFeatureSelector(selectedText);
+            handleFullscreenAPI();
             break;
         case 'screen-orientation':
-            handleDeviceFeatureSelector(selectedText);
+            handleScreenOrientationAPI();
             break;
 
         case 'vibration':
-            handleDeviceFeatureSelector(selectedText);
+            handleVibration();
             break;
         case 'page-visibility':
-            handleDeviceFeatureSelector(selectedText);
+            handlePageVisibility();
             break;
         case 'idle-detection':
             handleDeviceFeatureSelector(selectedText);
@@ -103,5 +103,24 @@ async function handleBatteryStatusAPI() {
 }
 
 function handleNetworkInformation() {
+    output.innerText = "Network Information...";
+    if ('connection' in navigator) {
+        console.log('Connection: ', navigator.connection);
+    }
+}
+
+function handleFullscreenAPI() {
+    output.innerText = "Network Information...";
+}
+
+function handleScreenOrientationAPI() {
+    output.innerText = "Network Information...";
+}
+
+function handleVibration() {
+    output.innerText = "Network Information...";
+}
+
+function handlePageVisibility() {
     output.innerText = "Network Information...";
 }

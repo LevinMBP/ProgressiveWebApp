@@ -1,11 +1,11 @@
 const output = document.getElementById('device-output');
 
 
-document.getElementById('feature-selector').addEventListener('click', function (event) {
+document.getElementById('feature-selector').addEventListener('change', function (event) {
     const selectedOption = event.target.value
-    output.innerText = "Selected Option: " + selectedOption;
-    console.log(event.target.text)
-    console.log(this.options[this.selectedIndex].text)
+
+    // console.log(event.target.text)
+    // console.log(this.options[this.selectedIndex].text)
     const selectedText = this.options[this.selectedIndex].text
 
     switch (selectedOption) {
@@ -29,10 +29,10 @@ document.getElementById('feature-selector').addEventListener('click', function (
             handlePageVisibility();
             break;
         case 'idle-detection':
-            handleDeviceFeatureSelector(selectedText);
+            handleIdleDetection();
             break;
         case 'screen-wake-lock':
-            handleDeviceFeatureSelector(selectedText);
+            handleScreenWakeLock();
             break;
         case 'geolocation':
             handleDeviceFeatureSelector(selectedText);
@@ -103,24 +103,166 @@ async function handleBatteryStatusAPI() {
 }
 
 function handleNetworkInformation() {
-    output.innerText = "Network Information...";
+
     if ('connection' in navigator) {
         console.log('Connection: ', navigator.connection);
+
+        const writeNetworkInfo = () => {
+
+            const networkType = navigator.connection.type || "unknown";
+            const networkEffectiveType = navigator.connection.effectiveType || "unknown";
+            const networkDownlink = navigator.connection.downlink || "unknown";
+            const networkDownlinkMax = navigator.connection.downlinkMax || "unknown";
+
+            output.innerHTML = `
+                <div>
+                    Current network type: 
+                    <strong>${networkType}</strong>
+                </div>
+                <div>
+                    Cellular connection type:
+                    <strong>${networkEffectiveType}</strong>
+                </div>
+                <div>
+                    Estimated bandwidth:
+                    <strong>${networkDownlink}</strong> Mbps
+                </div>
+                <div>
+                    Maximum downlink:
+                    <strong>${networkDownlinkMax}</strong> Mbps
+                </div>
+            `;
+        }
+
+        // Initialize network info
+        writeNetworkInfo();
+
+        navigator.connection.addEventListener('change', () => {
+            writeNetworkInfo();
+        })
+    }
+    else {
+        output.innerText = "Network Information not available";
     }
 }
 
 function handleFullscreenAPI() {
-    output.innerText = "Network Information...";
+
+    if ('fullscreenElement' in document && 'exitFullscreen' in document) {
+        // Create the helper elements
+        const button = document.createElement('button');
+        button.innerText = 'Togge Fullscreen';
+        output.appendChild(button);
+
+        const message = document.createElement('div');
+        message.innerText = 'Click on the button above';
+        output.appendChild(message);
+
+        button.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                // Using document getelemid to full screen on a scpecifil element
+                // document.getElementById().requestFullscreen()
+                document.documentElement.requestFullscreen()
+                    .then(() => {
+                        message.innerText = "You are on fullscreen mode now";
+                    });
+            }
+            else {
+                document.exitFullscreen()
+                    .then(() => {
+                        message.innerText = "You left the fullscreen mode";
+                    });
+            }
+        })
+    }
+    else {
+        output.innerText = "Fullscreen not available or enabled on this device...";
+    }
 }
 
 function handleScreenOrientationAPI() {
-    output.innerText = "Network Information...";
+    if ('screen' in window && 'orientation' in screen) {
+        //  Create the helper elements
+        const buttonLockPortrait = document.createElement('button');
+        buttonLockPortrait.innerText = "Lock Portrait";
+        output.appendChild(buttonLockPortrait);
+
+        const buttonLockLandscape = document.createElement('button');
+        buttonLockLandscape.innerText = "Lock Landscape";
+        output.appendChild(buttonLockLandscape);
+
+        const buttonUnlock = document.createElement('button');
+        buttonUnlock.innerText = "Unlock";
+        output.appendChild(buttonUnlock);
+
+        const message = document.createElement('div');
+        message.innerText = "Choose an option above";
+        output.appendChild(message);
+
+        buttonLockPortrait.addEventListener('click', () => {
+            screen.orientation.lock('portrait-primary')
+                .then(() => {
+                    message.innerText = "Locked to portrait";
+                })
+                .catch((err) => {
+                    message.innerText = `Lock error: ${err}`;
+                })
+        })
+
+        buttonLockLandscape.addEventListener('click', () => {
+            screen.orientation.lock('landscape-primary')
+                .then(() => {
+                    message.innerText = "Locked to landscape";
+                })
+                .catch((err) => {
+                    message.innerText = `Lock error: ${err}`;
+                })
+        })
+
+        buttonUnlock.addEventListener('click', () => {
+            screen.orientation.unlock();
+            message.innerHTML = "Orientation unlocked";
+        })
+
+    }
+    else {
+        output.innerText = "Screen orientation not available";
+    }
 }
 
 function handleVibration() {
-    output.innerText = "Network Information...";
+    if ('vibrate' in navigator) {
+        // Create the helper elements
+        const buttonSingle = document.createElement('button');
+        output.appendChild(buttonSingle);
+        buttonSingle.innerText = "Single Vibration";
+
+        const buttonMultiple = document.createElement('button');
+        output.appendChild(buttonMultiple);
+        buttonMultiple.innerText = "Single Vibration";
+
+        buttonSingle.addEventListener('click', () => {
+            // Vibrate for 200ms
+            navigator.vibrate(200);
+        })
+
+        buttonMultiple.addEventListener('click', () => {
+            navigator.vibrate([200, 100, 200, 300, 600]);
+        })
+    }
+    else {
+        output.innerText = "Vibration is not supported on this device";
+    }
 }
 
 function handlePageVisibility() {
+    output.innerText = "Network Information...";
+}
+
+function handleIdleDetection() {
+    output.innerText = "Network Information...";
+}
+
+function handleScreenWakeLock() {
     output.innerText = "Network Information...";
 }

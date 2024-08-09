@@ -382,11 +382,88 @@ function handleGeolocation() {
     }
 }
 
-function handlePermissionsAPI() {
+async function handlePermissionsAPI() {
+    if ('permissions' in navigator) {
+        const permissionStatus = await navigator.permissions.query({
+            name: "geolocation",
+            userVisibleOnly: true // only necessary for push api
+        })
 
+        output.innerHTML = `Status for <b>${permissionStatus.name}</b>: ${permissionStatus.state}`
+
+        // Watch for changes on the permissions
+        permissionStatus.addEventListener('change', (event) => {
+            console.log(event);
+        })
+
+    }
+    else {
+        output.innerText = "Permission API not available on this device";
+    }
 }
 
-function handleAccelerometer() {
+async function handleAccelerometer() {
+    // Validates sensor API
+    if (!('Accelerometer' in window)) {
+        output.innerText = "Accelerometer not available on this device";
+        return;
+    }
+
+    if (!('permissions' in navigator)) {
+        output.innerText = "Permission API not available on this device";
+        return;
+    }
+
+    // Validate the accelerometer permission
+    const accelerometerPermission = await navigator.permissions.query({
+        name: 'accelerometer'
+    })
+
+    if (accelerometerPermission.state !== 'granted') {
+        output.innerText = "You are not authorized to use accelerometer sensor";
+        return;
+    }
+
+    // Declare the sensor variable
+    let accelerometer
+    try {
+        accelerometer = new Accelerometer({
+            referenceFrame: 'device'
+        });
+    }
+    catch (err) {
+        output.innerText = 'Accelerometer error: ' + err;
+        return;
+    }
+
+    // Listening for errors thrown during its use
+    accelerometer.addEventListener('error', (event) => {
+        const errMsg = event.error;
+        output.innerText = 'Accelerometer failed: ' + errMsg;
+    })
+
+    // The reading event is fired when a new reading is available on a sensor
+    accelerometer.addEventListener('reading', () => {
+        console.log(accelerometer);
+    })
+
+    // Create the helper elements
+    const buttonStart = document.createElement('button');
+    buttonStart.innerText = 'Start';
+    output.appendChild(buttonStart);
+
+    const buttonStop = document.createElement('button');
+    buttonStop.innerText = 'Stop';
+    output.appendChild(buttonStop);
+
+    const message = document.createElement('div');
+    message.innerText = 'Click on the start button above';
+    output.appendChild(message);
+
+    // Start the sensor
+    buttonStart.addEventListener('click', () => {
+        accelerometer.start()
+    })
 
 }
 

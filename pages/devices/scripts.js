@@ -492,6 +492,7 @@ async function handleAccelerometer() {
             accelerometer.stop();
             buttonStop.disabled = true;
             buttonStart.disabled = false;
+            message.innerHTML = `<div>Acceleration reading stop</div>`;
         }
         catch (err) {
             message.innerText = "itwas not possible to stop the sensor: " + err;
@@ -590,6 +591,7 @@ async function handleLinearAcceleration() {
             linearAccelerometer.stop();
             buttonStop.disabled = true;
             buttonStart.disabled = false;
+            message.innerHTML = `<div>Acceleration reading stop</div>`;
         }
         catch (err) {
             message.innerText = "itwas not possible to stop the sensor: " + err;
@@ -602,5 +604,5 @@ function handleGyroscope() {
 }
 
 function handleGravity() {
-
+    // same as Accelerometer & linear accelerometer just different api
 }
